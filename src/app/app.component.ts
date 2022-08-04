@@ -1,35 +1,22 @@
-import {
-  CompleteParams,
-  ErrorParams,
-  FlatfileMethods,
-} from "@flatfile/angular";
+import { Component, OnInit } from '@angular/core';
 
-import { Component } from '@angular/core';
+import { flatfileImporter } from '@flatfile/sdk';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements FlatfileMethods {
+export class AppComponent implements OnInit {
   title = 'Angular11213App';
 
-  /**
-   * @NOTE - Call your backend & retrieve your Token, and pass down the license key
-   * 👇👇👇
-   */
-  token = 'YOUR_TOKEN_HERE';
-  results: any;
-
-  onComplete(event: CompleteParams) {
-    console.log(`onComplete`);
-    console.log(event);
-
-    // Your data!
-    this.results = event.data;
+  async ngOnInit(): Promise<void> {
+    const importer = flatfileImporter("");
+    await importer.__unsafeGenerateToken({
+      privateKey: "YOUR_PRIVATE_KEY",
+      embedId: "YOUR_EMBED_ID",
+      endUserEmail: "max@mail.com",
+    });
   }
-  onError(event: ErrorParams) {
-    console.log(`onError`);
-    console.log(event);
-  }
+
 }
